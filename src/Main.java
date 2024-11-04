@@ -1,86 +1,64 @@
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 public class Main {
     public static void main(String[] args) {
         Locadora locadora = new Locadora();
 
-        // Testando as funcionalidades da locadora
-        locadora.cadastrarCliente("João", "001");
-        locadora.cadastrarCliente("Maria", "002");
+        // Teste 1: Adicionar um filme e verificar se foi adicionado corretamente
+        Filme filme1 = new Filme("O Senhor dos Anéis");
+        locadora.adicionarFilme(filme1);
+        assertEquals(filme1, locadora.buscarFilme("O Senhor dos Anéis"), "O filme deveria estar na locadora.");
 
-        locadora.adicionarFilme("O Poderoso Chefão", "Drama");
-        locadora.adicionarFilme("Matrix", "Ficção Científica");
+        // Teste 2: Adicionar um cliente e verificar se foi adicionado corretamente
+        Cliente cliente1 = new Cliente("João", "12345678900");
+        locadora.cadastrarCliente(cliente1);
+        assertEquals(cliente1, locadora.buscarCliente("12345678900"), "O cliente deveria estar cadastrado na locadora.");
 
-        locadora.buscarFilme("O Poderoso Chefão");
+        // Teste 3: Alugar um filme disponível e verificar se ele está marcado como indisponível
+        locadora.alugarFilme("O Senhor dos Anéis", "12345678900");
+        assertEquals(false, locadora.buscarFilme("O Senhor dos Anéis").isDisponivel(), "O filme deveria estar indisponível após o aluguel.");
 
-        locadora.alugarFilme("João", "O Poderoso Chefão");
-        locadora.buscarFilme("O Poderoso Chefão");
+        // Teste 4: Devolver um filme e verificar se ele está marcado como disponível
+        locadora.devolverFilme("O Senhor dos Anéis");
+        assertEquals(true, locadora.buscarFilme("O Senhor dos Anéis").isDisponivel(), "O filme deveria estar disponível após a devolução.");
 
-        locadora.devolverFilme("O Poderoso Chefão");
-        locadora.buscarFilme("O Poderoso Chefão");
+        // Teste 5: Remover um filme e verificar se ele foi removido corretamente
+        locadora.removerFilme("O Senhor dos Anéis");
+        assertEquals(null, locadora.buscarFilme("O Senhor dos Anéis"), "O filme deveria ter sido removido da locadora.");
 
-        locadora.buscarCliente("João");
-        locadora.removerCliente("João");
-        locadora.buscarCliente("João");
+        // Teste 6: Remover um cliente e verificar se ele foi removido corretamente
+        locadora.removerCliente("12345678900");
+        assertEquals(null, locadora.buscarCliente("12345678900"), "O cliente deveria ter sido removido da locadora.");
 
-        // Testes
-        testAdicionarFilme(locadora);
-        testRemoverFilme(locadora);
-        testBuscarFilme(locadora);
-        testCadastrarCliente(locadora);
-        testRemoverCliente(locadora);
-        testBuscarCliente(locadora);
-        testAlugarFilme(locadora);
-        testDevolverFilme(locadora);
+        // Teste 7: Tentar alugar um filme que não existe e verificar o comportamento
+        locadora.alugarFilme("Filme Inexistente", "12345678900");
+        assertEquals(null, locadora.buscarFilme("Filme Inexistente"), "O filme inexistente não deveria estar na locadora.");
+
+        // Teste 8: Tentar cadastrar um cliente com o mesmo CPF e verificar se o cliente duplicado não foi adicionado
+        Cliente clienteDuplicado = new Cliente("João", "12345678900");
+        locadora.cadastrarCliente(cliente1); // Primeiro cadastro
+        locadora.cadastrarCliente(clienteDuplicado); // Cadastro duplicado
+        int clientesCadastrados = locadora.getClientes().size();
+        assertEquals(1, clientesCadastrados, "Deveria haver apenas um cliente com o CPF '12345678900'.");
     }
 
-    public static void testAdicionarFilme(Locadora locadora) {
-        locadora.adicionarFilme("O Poderoso Chefão", "Drama");
-        assertNotNull(locadora.buscarFilme("O Poderoso Chefão"), "Filme deve ser adicionado e encontrado");
+    // Método auxiliar para realizar asserções em igualdade
+    public static void assertEquals(Object expected, Object actual, String message) {
+        if (!expected.equals(actual)) {
+            throw new AssertionError("Teste falhou: " + message + "\nEsperado: " + expected + "\nAtual: " + actual);
+        }
     }
 
-    public static void testRemoverFilme(Locadora locadora) {
-        locadora.adicionarFilme("Matrix", "Ação");
-        locadora.removerFilme("Matrix");
-        assertNull(locadora.buscarFilme("Matrix"), "Filme deve ser removido e não encontrado");
+    // Método auxiliar para realizar asserções em igualdade com valores booleanos
+    public static void assertEquals(boolean expected, boolean actual, String message) {
+        if (expected != actual) {
+            throw new AssertionError("Teste falhou: " + message + "\nEsperado: " + expected + "\nAtual: " + actual);
+        }
     }
 
-    public static void testBuscarFilme(Locadora locadora) {
-        locadora.adicionarFilme("O Senhor dos Anéis", "Fantasia");
-        assertNotNull(locadora.buscarFilme("O Senhor dos Anéis"), "Filme deve ser encontrado");
+    // Método auxiliar para realizar asserções em igualdade com inteiros
+    public static void assertEquals(int expected, int actual, String message) {
+        if (expected != actual) {
+            throw new AssertionError("Teste falhou: " + message + "\nEsperado: " + expected + "\nAtual: " + actual);
+        }
     }
-
-    public static void testCadastrarCliente(Locadora locadora) {
-        locadora.cadastrarCliente("Maria", "001");
-        assertNotNull(locadora.buscarCliente("Maria"), "Cliente deve ser cadastrado e encontrado");
-    }
-
-    public static void testRemoverCliente(Locadora locadora) {
-        locadora.cadastrarCliente("João", "002");
-        locadora.removerCliente("002");
-        assertNull(locadora.buscarCliente("João"), "Cliente deve ser removido e não encontrado");
-    }
-
-    public static void testBuscarCliente(Locadora locadora) {
-        locadora.cadastrarCliente("Ana", "003");
-        assertNotNull(locadora.buscarCliente("Ana"), "Cliente deve ser encontrado");
-    }
-
-    public static void testAlugarFilme(Locadora locadora) {
-        locadora.cadastrarCliente("Maria", "001");
-        locadora.adicionarFilme("O Poderoso Chefão", "Drama");
-        locadora.alugarFilme("O Poderoso Chefão", "001");
-        assertFalse(locadora.buscarFilme("O Poderoso Chefão").isAlugado(), "Filme deve estar alugado e não disponível");
-    }
-
-    public static void testDevolverFilme(Locadora locadora) {
-        locadora.adicionarFilme("O Poderoso Chefão", "Drama");
-        locadora.alugarFilme("O Poderoso Chefão", "001");
-        locadora.devolverFilme("O Poderoso Chefão");
-        assertTrue(locadora.buscarFilme("O Poderoso Chefão").isAlugado(), "Filme deve estar disponível após devolução");
-    }
-
 }
+

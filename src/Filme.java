@@ -1,32 +1,27 @@
 public class Filme {
     private String titulo;
-    private String genero;
-    private boolean alugado;
+    private boolean disponivel;
 
-    public Filme(String titulo, String genero) {
+    public Filme(String titulo) {
         this.titulo = titulo;
-        this.genero = genero;
-        this.alugado = false;
+        this.disponivel = true; // Todos os filmes são disponíveis no início
     }
 
     public String getTitulo() {
         return titulo;
     }
 
-    public boolean isAlugado() {
-        return alugado;
+    public boolean isDisponivel() {
+        return disponivel;
     }
 
-    public void alugar() {
-        this.alugado = true;
+    public void setDisponivel(boolean disponivel) {
+        this.disponivel = disponivel;
     }
 
-    public void devolver() {
-        this.alugado = false;
-    }
-
-@Override
+    @Override
     public String toString() {
-        return "Filme: " + titulo + " | Gênero: " + genero + " | Disponível: " + (alugado ? "Sim" : "Não");
+        return "Filme{" + "titulo='" + titulo + '\'' + ", disponivel=" + disponivel + '}';
     }
 }
+
