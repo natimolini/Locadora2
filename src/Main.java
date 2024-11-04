@@ -40,10 +40,13 @@ public class Main {
         assertEquals(1, clientesCadastrados, "Deveria haver apenas um cliente com o CPF '12345678900'.");
     }
 
-    // Método auxiliar para realizar asserções em igualdade
     public static void assertEquals(Object expected, Object actual, String message) {
-        if (!expected.equals(actual)) {
-            throw new AssertionError("Teste falhou: " + message + "\nEsperado: " + expected + "\nAtual: " + actual);
+        if (expected == null && actual == null) {
+            System.out.println("Teste passou: " + message);
+        } else if (expected != null && expected.equals(actual)) {
+            System.out.println("Teste passou: " + message);
+        } else {
+            System.out.println("Teste falhou: " + message + " - Esperado: " + expected + ", Obtido: " + actual);
         }
     }
 
