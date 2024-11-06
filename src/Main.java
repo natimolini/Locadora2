@@ -40,24 +40,21 @@ public class Main {
         assertEquals(1, clientesCadastrados, "Deveria haver apenas um cliente com o CPF '12345678900'.");
     }
 
+    // Metodo auxiliar para realizar asserções em igualdade com objetos
     public static void assertEquals(Object expected, Object actual, String message) {
-        if (expected == null && actual == null) {
-            System.out.println("Teste passou: " + message);
-        } else if (expected != null && expected.equals(actual)) {
-            System.out.println("Teste passou: " + message);
-        } else {
-            System.out.println("Teste falhou: " + message + " - Esperado: " + expected + ", Obtido: " + actual);
+        if (!expected.equals(actual)) {
+            throw new AssertionError("Teste falhou: " + message + "\nEsperado: " + expected + "\nAtual: " + actual);
         }
     }
 
-    // Método auxiliar para realizar asserções em igualdade com valores booleanos
+    // Metodo auxiliar para realizar asserções em igualdade com valores booleanos
     public static void assertEquals(boolean expected, boolean actual, String message) {
         if (expected != actual) {
             throw new AssertionError("Teste falhou: " + message + "\nEsperado: " + expected + "\nAtual: " + actual);
         }
     }
 
-    // Método auxiliar para realizar asserções em igualdade com inteiros
+    // Metodo auxiliar para realizar asserções em igualdade com inteiros
     public static void assertEquals(int expected, int actual, String message) {
         if (expected != actual) {
             throw new AssertionError("Teste falhou: " + message + "\nEsperado: " + expected + "\nAtual: " + actual);

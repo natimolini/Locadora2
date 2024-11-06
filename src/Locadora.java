@@ -34,6 +34,10 @@ public class Locadora {
 
     // Função para cadastrar um novo cliente
     public void cadastrarCliente(Cliente cliente) {
+        if (buscarCliente(cliente.getCpf()) != null) {
+            System.out.println("Cliente já cadastrado.");
+            return;
+        }
         clientes.add(cliente);
         System.out.println("Cliente cadastrado: " + cliente.getNome());
     }
