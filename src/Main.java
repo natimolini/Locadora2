@@ -42,7 +42,7 @@ public class Main {
 
     // Metodo auxiliar para realizar asserções em igualdade com objetos
     public static void assertEquals(Object expected, Object actual, String message) {
-        if (!expected.equals(actual)) {
+        if (expected != actual) {
             throw new AssertionError("Teste falhou: " + message + "\nEsperado: " + expected + "\nAtual: " + actual);
         }
     }
