@@ -29,8 +29,8 @@ public class Main {
         assertEquals(null, locadora.buscarCliente("12345678900"), "O cliente deveria ter sido removido da locadora.");
 
         // Teste 7: Tentar alugar um filme que não existe e verificar o comportamento
-        locadora.alugarFilme("Filme Inexistente", "12345678900");
-        assertEquals(null, locadora.buscarFilme("Filme Inexistente"), "O filme inexistente não deveria estar na locadora.");
+        boolean filmeAlugado = locadora.alugarFilme("Filme Inexistente", "12345678900");
+        assertEquals(false, filmeAlugado, "O filme inexistente não deveria estar na locadora.");
 
         // Teste 8: Tentar cadastrar um cliente com o mesmo CPF e verificar se o cliente duplicado não foi adicionado
         Cliente clienteDuplicado = new Cliente("João", "12345678900");
@@ -44,6 +44,8 @@ public class Main {
     public static void assertEquals(Object expected, Object actual, String message) {
         if (expected != actual) {
             throw new AssertionError("Teste falhou: " + message + "\nEsperado: " + expected + "\nAtual: " + actual);
+        }else{
+            System.out.println("Teste passou: " + message + "\nEsperado: " + expected + "\nAtual: " + actual);
         }
     }
 
@@ -51,6 +53,8 @@ public class Main {
     public static void assertEquals(boolean expected, boolean actual, String message) {
         if (expected != actual) {
             throw new AssertionError("Teste falhou: " + message + "\nEsperado: " + expected + "\nAtual: " + actual);
+        }else{
+            System.out.println("Teste passou: " + message + "\nEsperado: " + expected + "\nAtual: " + actual);
         }
     }
 
@@ -58,6 +62,8 @@ public class Main {
     public static void assertEquals(int expected, int actual, String message) {
         if (expected != actual) {
             throw new AssertionError("Teste falhou: " + message + "\nEsperado: " + expected + "\nAtual: " + actual);
+        }else{
+            System.out.println("Teste passou: " + message + "\nEsperado: " + expected + "\nAtual: " + actual);
         }
     }
 }

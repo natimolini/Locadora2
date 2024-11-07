@@ -65,7 +65,7 @@ public class Locadora {
     }
 
     // Função para alugar um filme
-    public void alugarFilme(String titulo, String cpf) {
+    public boolean alugarFilme(String titulo, String cpf) {
         Filme filme = buscarFilme(titulo);
         Cliente cliente = buscarCliente(cpf);
 
@@ -73,12 +73,14 @@ public class Locadora {
             if (filme.isDisponivel()) {
                 filme.setDisponivel(false);
                 System.out.println("Filme alugado: " + titulo + " para o cliente: " + cliente.getNome());
+                return true;
             } else {
                 System.out.println("Filme indisponível para aluguel.");
             }
         } else {
             System.out.println("Filme ou cliente não encontrado.");
         }
+        return false;
     }
 
     // Função para devolver um filme
